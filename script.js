@@ -41,8 +41,11 @@ const addBall = (event) => {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
-  
-    const newBall = new Ball(x, y, 10, 2, -2);
+
+    const dx = getRandomNumber(-2, 2); // Random number between -2 and 2
+    const dy = getRandomNumber(-2, 2); // Random number between -2 and 2
+
+    const newBall = new Ball(x, y, 10, dx, dy);
     balls.push(newBall);
 }
 
@@ -56,5 +59,9 @@ function draw() {
   
     requestAnimationFrame(draw);
 }
+
+function getRandomNumber(min, max) {
+    return Math.random() * (max - min) + min;
+  }
 
 draw();
