@@ -47,7 +47,8 @@ class Brick {
 }
 
 
-
+const paddleLeft = document.getElementById("paddle-left");
+const paddleRight = document.getElementById("paddle-right");
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const balls = [];
@@ -64,8 +65,12 @@ canvas.addEventListener("mousedown", event => {
       console.log("new brick")
     }
 });
-  
-
+paddleLeft.addEventListener("click", () => {
+  console.log("left paddle click");
+})
+paddleRight.addEventListener("click", () => {
+  console.log("right paddle click");
+})
 
 const addBall = (event) => {
     const rect = canvas.getBoundingClientRect();
