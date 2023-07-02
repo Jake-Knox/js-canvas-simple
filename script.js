@@ -25,6 +25,43 @@ class Ball {
         if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
           this.dy = -this.dy;
         }
+
+        // check collisions with bricks
+        bricks.forEach((brick, index) => {
+          if (
+            this.x + this.radius > brick.x &&
+            this.x - this.radius < brick.x + brick.width &&
+            this.y + this.radius > brick.y &&
+            this.y - this.radius < brick.y + brick.height
+          ) {
+            // Collision detected, adjust ball direction based on hit side
+            const ballRight = this.x + this.radius;
+            const ballLeft = this.x - this.radius;
+            const ballBottom = this.y + this.radius;
+            const ballTop = this.y - this.radius;
+
+            const brickRight = brick.x + brick.width;
+            const brickLeft = brick.x;
+            const brickBottom = brick.y + brick.height;
+            const brickTop = brick.y;
+
+            const hitRight = ballLeft < brickRight && ballRight >= brickRight;
+            const hitLeft = ballRight > brickLeft && ballLeft <= brickLeft;
+            const hitBottom = ballTop < brickBottom && ballBottom >= brickBottom;
+            const hitTop = ballBottom > brickTop && ballTop <= brickTop;
+
+            if (hitRight || hitLeft) {
+              this.dx = -this.dx;
+            }
+            if (hitBottom || hitTop) {
+              this.dy = -this.dy;
+            }
+
+            // Remove brick
+            bricks.splice(index, 1);
+          
+          }
+        }); 
     }
 }
 
@@ -77,8 +114,13 @@ const addBall = (event) => {
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
 
-    const dx = getRandomNumber(-2, 2); // Random number between -2 and 2
-    const dy = getRandomNumber(-2, 2); // Random number between -2 and 2
+    // const dx = getRandomNumber(-2, 2); 
+    // const dy = getRandomNumber(-2, 2); 
+    const angle = Math.random() * Math.PI * 2 // random angle in radians
+    const speed = 4;
+
+    const dx = Math.cos(angle) * speed;
+    const dy = Math.sin(angle) * speed;
 
     const newBall = new Ball(x, y, 10, dx, dy);
     balls.push(newBall);
