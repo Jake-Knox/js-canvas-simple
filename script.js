@@ -83,7 +83,6 @@ class Brick {
     }
 }
 
-
 const paddleLeft = document.getElementById("paddle-left");
 const paddleRight = document.getElementById("paddle-right");
 const canvas = document.getElementById("gameCanvas");
@@ -91,7 +90,21 @@ const ctx = canvas.getContext("2d");
 const balls = [];
 const bricks = [];
 
-
+const paddle = {
+  x: canvas.width / 2 - 60, // Initial x-coordinate of the paddle
+  y: canvas.height - 20, // Initial y-coordinate of the paddle
+  width: 120, // Width of the paddle
+  height: 20, // Height of the paddle
+  speed: 20, // Speed of the paddle (adjust as needed)
+};
+// Draw the paddle on the canvas
+const drawPaddle = () => {
+  ctx.beginPath();
+  ctx.rect(paddle.x, paddle.y, paddle.width, paddle.height);
+  ctx.fillStyle = 'blue'; // Set the color of the paddle
+  ctx.fill();
+  ctx.closePath();
+}
 canvas.addEventListener("click", (event) => {
     addBall(event);
     console.log("new ball")
@@ -102,12 +115,21 @@ canvas.addEventListener("mousedown", event => {
       console.log("new brick")
     }
 });
+
 paddleLeft.addEventListener("click", () => {
-  console.log("left paddle click");
+  movePaddleLeft();  
 })
 paddleRight.addEventListener("click", () => {
-  console.log("right paddle click");
+  movePaddleRight();
 })
+// Update the paddle's position based on keyboard input
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'ArrowLeft' && paddle.x > 0) {
+    movePaddleLeft();  
+  } else if (event.key === 'ArrowRight' && paddle.x + paddle.width < canvas.width) {
+    movePaddleRight();
+  }
+});
 
 const addBall = (event) => {
     const rect = canvas.getBoundingClientRect();
@@ -126,7 +148,7 @@ const addBall = (event) => {
     balls.push(newBall);
 }
 
-function addBrick(event) {
+const addBrick = (event) =>{
     const rect = canvas.getBoundingClientRect();
 
     const width = 80;
@@ -139,9 +161,18 @@ function addBrick(event) {
     bricks.push(newBrick);
 }
 
-function draw() {
+const movePaddleLeft = () => {
+  paddle.x -= paddle.speed;
+}
+const movePaddleRight = () => {
+  paddle.x += paddle.speed;
+}
+
+const draw = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   
+    drawPaddle();
+
     balls.forEach(ball => {
       ball.draw();
       ball.update();
@@ -153,7 +184,7 @@ function draw() {
     requestAnimationFrame(draw);
 }
 
-function getRandomNumber(min, max) {
+const getRandomNumber = (min, max) => {
     return Math.random() * (max - min) + min;
 }
 
