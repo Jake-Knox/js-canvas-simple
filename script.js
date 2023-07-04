@@ -18,12 +18,51 @@ class Ball {
     update() {
         this.x += this.dx;
         this.y += this.dy;
-    
+        // bounding of the canvas
         if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
           this.dx = -this.dx;
         }
-        if (this.y + this.radius > canvas.height || this.y - this.radius < 0) {
+        if ( this.y - this.radius < 0) {
           this.dy = -this.dy;
+        }
+        if (this.y + this.radius > canvas.height) {
+          // remove ball that hits botttom
+          const ballIndex = balls.indexOf(this);
+          balls.splice(ballIndex, 1);
+        }
+        
+
+        // check for collision with paddle
+        if (
+          this.x + this.radius > paddle.x &&
+          this.x - this.radius < paddle.x + paddle.width &&
+          this.y + this.radius > paddle.y &&
+          this.y - this.radius < paddle.y + paddle.height
+        ) {
+            const ballRight = this.x + this.radius;
+            const ballLeft = this.x - this.radius;
+            const ballBottom = this.y + this.radius;
+            const ballTop = this.y - this.radius;
+
+            const paddleRight = paddle.x + paddle.width;
+            const paddleLeft = paddle.x;
+            const paddleBottom = paddle.y + paddle.height;
+            const paddleTop = paddle.y;
+
+            const hitRight = ballLeft < paddleRight && ballRight >= paddleRight;
+            const hitLeft = ballRight > paddleLeft && ballLeft <= paddleLeft;
+            const hitBottom = ballTop < paddleBottom && ballBottom >= paddleBottom;
+            const hitTop = ballBottom > paddleTop && ballTop <= paddleTop;
+
+            if (hitRight || hitLeft) {
+              this.dx = -this.dx;
+              if(this.dy < 0){
+                this.dy = -this.dy;
+              }
+            }
+            if (hitBottom || hitTop) {
+              this.dy = -this.dy;
+            }
         }
 
         // check collisions with bricks
