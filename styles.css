@@ -33,3 +33,37 @@ canvas {
 .paddle:active{
     background-color: rgb(114, 114, 102);
 }
+
+#explainer {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    height: 20px;
+    width: 20px;
+    background-color: lightcoral;
+    text-align: center;
+    line-height: 140%;
+    user-select: none;
+}
+#explainer:hover{
+    cursor: pointer;
+}
+.exp-list{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: wheat;
+    list-style-type: none;
+    margin-left: 0px;
+    padding-left: 0px;
+    opacity: 50%;
+}
+li{
+    text-align: left;
+    width: 250px;
+}
+.invisible {
+    display: none;
+}

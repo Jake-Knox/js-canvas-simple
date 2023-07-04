@@ -122,6 +122,9 @@ class Brick {
     }
 }
 
+const explainer = document.getElementById("explainer");
+const expList = document.getElementById("exp-list");
+
 const paddleLeft = document.getElementById("paddle-left");
 const paddleRight = document.getElementById("paddle-right");
 const canvas = document.getElementById("gameCanvas");
@@ -236,4 +239,8 @@ const getRandomNumber = (min, max) => {
     return color;
 }
 
+explainer.addEventListener("click", () => {
+  expList.classList.toggle("exp-list");
+  expList.classList.toggle("invisible");
+})
 draw();
